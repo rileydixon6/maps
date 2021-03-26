@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>ArcGIS API for JavaScript Tutorials: Display a map</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    
+    <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.18/"></script>
+    
+    <script>
+      require(["esri/config","esri/Map", "esri/views/MapView","esri/Graphic","esri/layers/GraphicsLayer", "esri/widgets/Search"], function (esriConfig,Map, MapView, Graphic, GraphicsLayer, Search) {
+        esriConfig.apiKey =
+"AAPK9c89f38756f84d4db6ad97e8fcaa01aaGZaoHGEhU_NYbbg2TBpv99yw-qKvZAtA7p6j5NfgfaP_Z_1nLksquSNhenIzVvVL"
+        
+        const map = new Map({
+          basemap: "arcgis-topographic" // Basemap layer service
+        });
+        
+        const view = new MapView({
+          map: map,
+          center: [-98.5795, 39.8283], // Longitude, latitude
+          zoom: 3, // Zoom level
+          container: "viewDiv" // Div element
+        });
+
+        const search = new Search({  //Add Search widget
+          view: view
+        });
+
+        view.ui.add(search, "top-right"); //Add to the map
+
+
+        const graphicsLayer = new GraphicsLayer();
+ map.add(graphicsLayer);
+        
+        var coord = [[-112.125092, 36.056595],[-119.538330, 37.865101],[-113.022537, 37.317207],[-110.584663, 44.429764],[-118.555145, 36.887856],[-155.2884969, 19.4193697],[-117.0794078, 36.5053891],[-151.197418, 63.129887],[-108.461838, 37.230873],[-123.4982507, 47.9690682],[-109.8782592, 38.3268693]
+,[-124.004631, 41.213181],[-109.592514, 38.733082],[-68.273430, 44.338974],[-115.900650, 33.881866],[-112.166504, 37.619431],[-105.6836389, 40.3427932],[-113.7870225, 48.7596128],[-103.2501638, 29.2499017],[-83.489548, 35.611763],[-78.292694, 38.700516],[-80.898651, 25.286615],[-86.100528, 37.1869978],[-122.1684785, 42.8684411],[-92.827087, 48.484096]];
+        
+        function createPoint(park){
+          const point = { //Create a point
+      type: "point",
+      longitude: park[0],
+      latitude: park[1]
+          };
+        
+          const simpleMarkerSymbol = {
+      type: "simple-marker",
+      color: [226, 119, 40],  // Orange
+      outline: {
+          color: [255, 255, 255], // White
+          width: 1
+          }
+   };
+          const pointGraphic = new Graphic({
+      geometry: point,
+      symbol: simpleMarkerSymbol
+   });
+   graphicsLayer.add(pointGraphic);}
+        
+        coord.forEach(createPoint);
+        
+
+
+        
+
+      });
+    </script>
+
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
